@@ -31,10 +31,11 @@ public class FrequencyDomainFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
 		getPhaseImage();
+		//filter();
 	}
 	
 	public void getPhaseImage(){
-		Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.waterfall);
+		Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.keyblade);
 		image= image.copy(Bitmap.Config.ARGB_8888, true);  
 		iv = (ImageView) getView().findViewById(R.id.imageView2);
 		
@@ -51,7 +52,6 @@ public class FrequencyDomainFragment extends Fragment {
 			red[i] = (curr_pixel >> 16) & 0xff;
 			green[i] = (curr_pixel >> 8) & 0xff;
 			blue[i] = curr_pixel & 0xff;
-			//Log.d("colors", Integer.toString(red[i]) + " " + Integer.toString(green[i]) + " " + Integer.toString(blue[i]));
 		}
 
 		//normalize by mean
@@ -63,37 +63,84 @@ public class FrequencyDomainFragment extends Fragment {
 			red[i] /= red_mean;
 			green[i] /= green_mean;
 			blue[i] /= blue_mean;
+			//Log.d("colors", Double.toString(red[i]) + " " + Double.toString(green[i]) + " " + Double.toString(blue[i]));
 		}
-		
+
 		double g[] = new double[imageArray.length*2];
 		
-		int k = 1;
-		int delta_z = 1;
+		double k = 1.0;
+		double delta_z = .000001;
+		double offset = .001; //avoid division by zero errors; ask about this
 		for(int i=0; i<imageArray.length; i++) {
-			g[i] = (k/green[i])*((blue[i] - red[i])/delta_z);
+			g[i] = -(k/(green[i]+offset))*((blue[i] - red[i])/delta_z);
 		}
 		
-
+        /** frequency domain **/
 		DoubleFFT_2D dfft = new DoubleFFT_2D(image.getHeight(), image.getWidth());
-		dfft.realForwardFull(g); // g now holds the fft{g}
+		dfft.realForwardFull(g); // g now holds fft{g}
 		
 		//generate meshgrid
 		int height = image.getHeight();
 		int width = image.getWidth();
 		int[] meshX = meshGridX(width);
 		int[] meshY = meshGridY(height);
-
+		//Log.d("mesh", Arrays.toString(meshX));
+		//Log.d("mesh", Arrays.toString(meshY));
 		
-		double epsilon = .01;
+		//poisson magic
+		double epsilon = .001; // user control
+		double pi_squared = Math.pow(Math.PI, 2);
+		for(int x = 0; x < width; x++){
+			for(int y = 0; y < height; y++){
+				int curr_real_index = y*2*width + 2*x;
+				int curr_im_index = y*2*width + 2*x+1;
+				double denom = (-4*pi_squared)*(Math.pow(meshX[x], 2) + Math.pow(meshY[y], 2)) + epsilon;
+				//Log.d("frequency", Double.toString(g[curr_real_index]));
+				g[curr_real_index] = g[curr_real_index]/denom;
+				g[curr_im_index] = g[curr_im_index]/denom;
+				//Log.d("frequency", Double.toString(g[curr_real_index]));
+				
+			}
+		}
 		
+		dfft.complexInverse(g, true);
 		
-		//Bitmap red_bmp = Bitmap.createBitmap(image.getWidth(), image.getHeight(), Bitmap.Config.ARGB_8888);
-		//red_bmp.setPixels(red, 0, image.getWidth(), 0,0, image.getWidth(), image.getHeight() );
-		//iv.setImageBitmap(red_bmp);
+	
+		double[] g_int = new double[imageArray.length];  //convert to int array later
+		int cols = width;
+		// recover image from complexInverse output
+		for(int x=0; x < image.getWidth(); x++){
+			for(int y=0; y < image.getHeight(); y++){
+				double real = g[(y*2*cols) + 2*x];
+				double im = g[(y*2*cols) + 2*x + 1]; // should, by all means, be zero
+				int mag = (int) Math.sqrt(Math.pow(real, 2) + Math.pow(im, 2));
+				g_int[(y*cols)+x] = (real);
+			}
+		}
+		Log.d("filter", "Image array length: " + Integer.toString(g_int.length));
+		Log.d("filter", "Image height: " + Integer.toString(image.getHeight()));
+		Log.d("filter", "Image width: " + Integer.toString(image.getWidth()));
+		printLong(g_int);
+		
+		/**Bitmap phase_bmp = Bitmap.createBitmap(image.getWidth(), image.getHeight(), Bitmap.Config.ARGB_8888);
+		phase_bmp.setPixels(g_int, 0, image.getWidth(), 0,0, image.getWidth(), image.getHeight() );
+		iv.setImageBitmap(phase_bmp);**/
+		
 	}
 	
 	/***** utility/helper functions *****/
 	
+	public void printLong(double[] in){
+
+		String veryLongString = Arrays.toString(in);
+		int maxLogSize = 1000;
+		for(int i = 0; i <= veryLongString.length() / maxLogSize; i++) {
+		    int start = i * maxLogSize;
+		    int end = (i+1) * maxLogSize;
+		    end = end > veryLongString.length() ? veryLongString.length() : end;
+		    Log.v("output", veryLongString.substring(start, end));
+		}
+	}
 	public int[] meshGridX(int width){
 		int[] mesh_x = new int[width];
 		for(int i = 0; i < width; i++){
@@ -129,7 +176,7 @@ public class FrequencyDomainFragment extends Fragment {
 	
 	public void filter(){
 		//Drawable image = getResources().getDrawable(R.drawable.waterfall);
-		Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.tiny);
+		Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.keyblade);
 		image= image.copy(Bitmap.Config.ARGB_8888, true);  
 		iv = (ImageView) getView().findViewById(R.id.imageView2);
 		
@@ -154,7 +201,7 @@ public class FrequencyDomainFragment extends Fragment {
 		int cols = image.getWidth();
 		int width = image.getWidth();
 		int height = image.getHeight();
-		Log.d("filter", "Image array length: " + Integer.toString(doubleImageArray.length));
+		/**Log.d("filter", "Image array length: " + Integer.toString(doubleImageArray.length));
 		Log.d("filter", "Image height: " + Integer.toString(image.getHeight()));
 		Log.d("filter", "Image width: " + Integer.toString(image.getWidth()));
 		
@@ -166,11 +213,11 @@ public class FrequencyDomainFragment extends Fragment {
 		    int end = (i+1) * maxLogSize;
 		    end = end > veryLongString.length() ? veryLongString.length() : end;
 		    Log.v("filter", veryLongString.substring(start, end));
-		}
+		}**/
 		
 		// frequency domain high pass filter
 		// TODO: fix coloring issues
-		for(int x=0; x < width; x ++){
+		/**for(int x=0; x < width; x ++){
 			for(int y=0; y < height; y++){
 				boolean left = x < limit;
 				boolean right = x > width - limit;
@@ -191,14 +238,9 @@ public class FrequencyDomainFragment extends Fragment {
 					} catch (Exception e){
 						Log.d("filter", "oh nose");
 					}
-					/**doubleImageArray[(2*(y)*cols) + 2*(x)] = 0;
-					doubleImageArray[(2*(y)*cols) + 2*(x) + 1] = 0;
-					
-					doubleImageArray[(2*(height-y)*cols) + 2*(width-x)] = 0;
-					doubleImageArray[(2*(height-y)*cols) + 2*(width-x) + 1] = 0;**/
 				}
 			}
-		}
+		}**/
 		
 		
 		dfft.complexInverse(doubleImageArray, true);
@@ -212,10 +254,14 @@ public class FrequencyDomainFragment extends Fragment {
 				double real = doubleImageArray[(y*2*cols) + 2*x];
 				double im = doubleImageArray[(y*2*cols) + 2*x + 1]; // should, by all means, be zero
 				int mag = (int) Math.sqrt(Math.pow(real, 2) + Math.pow(im, 2));
-				filteredArray[(y*cols)+x] = (int) (im);
+				filteredArray[(y*cols)+x] = (int) (real);
+				//Log.d("filter", Double.toString(real));
 				//filteredArray[(y*cols)+x] = (int) doubleImageArray[(y*2*cols) + 2*x];
 			}
 		}
+		/**for(int i = 0; i < imageArray.length; i++){
+			filteredArray[i] = (int) doubleImageArray[i];
+		}**/
 		Bitmap fftBitmap = Bitmap.createBitmap(image.getWidth(), image.getHeight(), Bitmap.Config.ARGB_8888);
 		fftBitmap.setPixels(filteredArray, 0, image.getWidth(), 0,0, image.getWidth(), image.getHeight() );
 		//fftBitmap.copyPixelsFromBuffer(makeBuffer(fftIntArray, fftIntArrayhttp://stackoverflow.com/questions/12274170/how-to-convert-2d-int-array-to-bitmap-in-androi.length));
