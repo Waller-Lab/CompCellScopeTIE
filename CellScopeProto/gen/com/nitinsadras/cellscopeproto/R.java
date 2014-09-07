@@ -22,17 +22,19 @@ public final class R {
     }
     public static final class drawable {
         public static final int box60v=0x7f020000;
-        public static final int box60v_really_tiny=0x7f020001;
-        public static final int box60v_thumb=0x7f020002;
-        public static final int box60v_tiny=0x7f020003;
-        public static final int checkerboard=0x7f020004;
-        public static final int ic_launcher=0x7f020005;
-        public static final int keyblade=0x7f020006;
-        public static final int nothing=0x7f020007;
-        public static final int tiny=0x7f020008;
-        public static final int tiny_stripes=0x7f020009;
-        public static final int waterfall=0x7f02000a;
-        public static final int xbox60v_1=0x7f02000b;
+        public static final int box60v_500=0x7f020001;
+        public static final int box60v_really_tiny=0x7f020002;
+        public static final int box60v_thumb=0x7f020003;
+        public static final int box60v_tiny=0x7f020004;
+        public static final int checkerboard=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
+        public static final int keyblade=0x7f020007;
+        public static final int nothing=0x7f020008;
+        public static final int nothing_500=0x7f020009;
+        public static final int tiny=0x7f02000a;
+        public static final int tiny_stripes=0x7f02000b;
+        public static final int waterfall=0x7f02000c;
+        public static final int xbox60v_1=0x7f02000d;
     }
     public static final class id {
         public static final int action_settings=0x7f080004;
