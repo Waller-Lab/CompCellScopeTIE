@@ -85,7 +85,7 @@ public class FrequencyDomainFragment extends Fragment {
 		double g[] = new double[imageArray.length*2];
 		
 		double k = 1.0;
-		double delta_z = .000001;
+		double delta_z = 100;
 		double offset = .01; //avoid division by zero errors
 		for(int i=0; i<imageArray.length; i++) {
 			g[i] = -(k/(green[i]+offset))*((blue[i] - red[i])/delta_z);
@@ -102,18 +102,15 @@ public class FrequencyDomainFragment extends Fragment {
 		int[] meshY = meshGridY(height);
 		
 		//poisson magic
-		double epsilon = .01; // user control
+		double epsilon = .1; // user control
 		double pi_squared = Math.pow(Math.PI, 2);
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < height; y++){
 				int curr_real_index = y*2*width + 2*x;
 				int curr_im_index = y*2*width + 2*x+1;
 				double denom = (-4*pi_squared)*(Math.pow(meshX[x], 2) + Math.pow(meshY[y], 2)) + epsilon;
-				//Log.d("frequency", Double.toString(g[curr_real_index]));
 				g[curr_real_index] = g[curr_real_index]/denom;
-				g[curr_im_index] = g[curr_im_index]/denom;
-				//Log.d("frequency", Double.toString(g[curr_real_index]));
-				
+				g[curr_im_index] = g[curr_im_index]/denom;				
 			}
 		}
 		
@@ -134,9 +131,7 @@ public class FrequencyDomainFragment extends Fragment {
 		
 		Log.d("filter", "Image array length: " + Integer.toString(phase_raw.length));
 		Log.d("filter", "Image height: " + Integer.toString(image.getHeight()));
-		Log.d("filter", "Image width: " + Integer.toString(image.getWidth()));
-		//writeArrayToFile(phase_raw);
-		
+		Log.d("filter", "Image width: " + Integer.toString(image.getWidth()));		
 		
 		return phase_raw;
 				
@@ -154,8 +149,9 @@ public class FrequencyDomainFragment extends Fragment {
 		}
 		
 		int[] colorArray = new int[256];
-		for(int i =0; i < 256; i++){
-			colorArray[i] = (i << 16) + (i << 8) + i;
+		for(int i = 0; i < 256; i++){
+			int color = 255-i;
+			colorArray[i] = (color << 16) + (color << 8) + color;
 		}
 		ColorMap map = new ColorMap(colorArray, min,max);
 		

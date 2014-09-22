@@ -17,7 +17,7 @@ public class MainActivity extends FragmentActivity implements
 	private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
-    private String[] tabs = { "Image", "Frequency", "Filtered" };
+    private String[] tabs = { "Image", "Heightmap"};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
