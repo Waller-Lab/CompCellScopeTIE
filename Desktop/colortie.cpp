@@ -18,16 +18,18 @@ int main(int argc, char ** argv)
     }
     int k, delta_z, epsilon;
     const char* filename = argv[1];
-    if(argc == 4){
-        k = strtol(argv[2], NULL, 10); // 10
-        delta_z = strtol(argv[3], NULL, 10); // 1000
-        epsilon = strtol(argv[4], NULL, 10); // 100
+    if(argc == 5){
+        k = strtol(argv[2], NULL, 10);
+        delta_z = strtol(argv[3], NULL, 10);
+        epsilon = strtol(argv[4], NULL, 10);
     } else {
         k = 10;
         delta_z = 1000;
         epsilon = 100;
     }
-
+    cout << k << endl;
+    cout << delta_z << endl;
+    cout << epsilon << endl;
     Mat I = imread(filename, CV_LOAD_IMAGE_COLOR);
     if(I.empty())
         return -1;
@@ -60,11 +62,6 @@ int main(int argc, char ** argv)
     
     int * mesh_x = meshgrid_x(planes[0].cols);
     int * mesh_y = meshgrid_y(planes[0].rows);
-   
-    for(int i = 0; i < planes[0].cols; i++){
-        cout << mesh_x[i] << endl;
-    }
-
     double pi_squared = pow(M_PI, 2);
 
     for(int y = 0; y < planes[0].rows; y++){
@@ -80,8 +77,6 @@ int main(int argc, char ** argv)
     dft(complexG, result, DFT_INVERSE|DFT_REAL_OUTPUT); 
     
     normalize(result, result, 0, 1, CV_MINMAX);
-    normalize(G, G, 0, 1, CV_MINMAX);
-    //normalize(denom, denom, 0, 1, CV_MINMAX);
     imshow("original image"       , I);    // Show the result
     imshow("qualitative phase image", result); 
     waitKey();
