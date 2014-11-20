@@ -13,12 +13,12 @@ int* meshgrid_y(int height);
 int main(int argc, char ** argv)
 {
     if( argc < 2 ){
-        cout << "usage: ColorTie imagepath k deltaZ epsilon" << endl;
+        cout << "usage: ColorTie imagepath k deltaZ epsilon outputpath" << endl;
         return 0;
     }
-    int k, delta_z, epsilon;
+    double k, delta_z, epsilon;
     const char* filename = argv[1];
-    if(argc == 5){
+    if(argc == 6){
         k = strtol(argv[2], NULL, 10);
         delta_z = strtol(argv[3], NULL, 10);
         epsilon = strtol(argv[4], NULL, 10);
@@ -27,9 +27,6 @@ int main(int argc, char ** argv)
         delta_z = 1000;
         epsilon = 100;
     }
-    cout << k << endl;
-    cout << delta_z << endl;
-    cout << epsilon << endl;
     Mat I = imread(filename, CV_LOAD_IMAGE_COLOR);
     if(I.empty())
         return -1;
@@ -76,10 +73,14 @@ int main(int argc, char ** argv)
     Mat result;
     dft(complexG, result, DFT_INVERSE|DFT_REAL_OUTPUT); 
     
+    string result_path = "results/";
+    result_path.append(argv[5]);
     normalize(result, result, 0, 1, CV_MINMAX);
-    imshow("original image"       , I);    // Show the result
-    imshow("qualitative phase image", result); 
-    waitKey();
+    //result.convertTo(result, CV_32F);
+    //imshow("original image"       , I);    // Show the result
+    //imshow("qualitative phase image", result); 
+    result.convertTo(result, CV_8U, 255.0);
+    imwrite(result_path, result);
 
     return 0;
 }
