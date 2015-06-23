@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/nsadras/Development/compcellscope_processing/mainActivity/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/nsadras/Development/compcellscope_processing/mainActivity/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-42feb00dc08dcafa12ecfccdd1113caf3954b389.jar" />
+    </item>
+    <item
+        jar="/Users/nsadras/Development/compcellscope_processing/mainActivity/libs/prefuse.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="8119c678486a022a01ef3c25ecf10f85360158bd">
+        <dex dex="/Users/nsadras/Development/compcellscope_processing/mainActivity/build/intermediates/pre-dexed/debug/prefuse-85251f98a2377e1c593d44e2e3e90a76dfc58156.jar" />
+    </item>
+    <item
+        jar="/Users/nsadras/Development/adt-bundle-mac-x86_64-20140702/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/nsadras/Development/compcellscope_processing/mainActivity/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-4a66267f55e8b3c1f3799e77dbeaf5bad09fd8ef.jar" />
+    </item>
+    <item
+        jar="/Users/nsadras/Development/compcellscope_processing/mainActivity/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/nsadras/Development/compcellscope_processing/mainActivity/build/intermediates/pre-dexed/debug/classes-7266ab7759017e433f75cfe2b7cce7601618b592.jar" />
+    </item>
+    <item
+        jar="/Users/nsadras/Development/compcellscope_processing/mainActivity/build/intermediates/exploded-aar/compcellscope_processing/openCVLibrary2410/unspecified/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1c730575f5fd3920898e34d084321d2243e62b9f">
+        <dex dex="/Users/nsadras/Development/compcellscope_processing/mainActivity/build/intermediates/pre-dexed/debug/classes-6bcefb7fef253a67419d785a03e038d8478bafeb.jar" />
+    </item>
+    <item
+        jar="/Users/nsadras/Development/compcellscope_processing/mainActivity/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/nsadras/Development/compcellscope_processing/mainActivity/build/intermediates/pre-dexed/debug/classes-ae6043c51f5e10615a19dd767471ca35a0ccfd6c.jar" />
+    </item>
+
+</items>

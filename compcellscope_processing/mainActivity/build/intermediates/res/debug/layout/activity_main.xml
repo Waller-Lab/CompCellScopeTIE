@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:keepScreenOn="true"
+    tools:context="com.choochootrain.refocusing.activity.MainActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/computeRefocus"
+        android:text="Compute refocus" />
+    
+   
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewRefocus"
+        android:text="View refocus" />
+    
+    
+    <!-- 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/computeDPC"
+        android:text="Compute DPC" />
+    -->
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewDPC"
+        android:text="View DPC" />
+
+    <!--
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/computeDarkfield"
+        android:text="Compute darkfield" />
+    
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewDarkfield"
+        android:text="View darkfield" />
+    -->
+     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/computePhaseImage"
+        android:text="Compute Phase Image" />
+     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/selectFile"
+        android:text="Select File" />
+     
+     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/computeDPCRefocus"
+        android:text="Compute DPC Refocus" />
+     
+     <LinearLayout
+         android:orientation="horizontal"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         
+         <EditText 
+             android:id="@+id/k"
+             android:inputType="number"
+             android:layout_weight="1"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:hint="k"
+             />
+         
+         <EditText 
+             android:id="@+id/delta_z"
+             android:inputType="number"
+             android:layout_weight="1"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:hint="delta z"
+             />
+         
+         <EditText 
+             android:id="@+id/epsilon"
+             android:inputType="number"
+             android:layout_weight="1"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:hint="epsilon"
+             />
+          
+     </LinearLayout>
+     
+</LinearLayout>
+<!-- From: file:/Users/nsadras/Development/compcellscope_processing/mainActivity/src/main/res/layout/activity_main.xml -->
